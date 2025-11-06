@@ -3,145 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제품 서비스 선택</title>
+    <title>SBM International 서비스</title> <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSS 스타일 */
+        /* 기본 스타일 및 배경색 */
         body {
+            font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', sans-serif;
+            margin: 0;
+            background-color: #f1f3f5; /* 요청하신 배경색 */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* 전체 화면 높이 사용 */
+        }
+
+        /* 헤더 스타일 */
+        .header {
+            background-color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .logo-container {
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-text-sbm {
+            font-size: 2.8em; /* SBM 글자 크기 */
+            font-weight: 800; /* SBM 글자 굵기 */
+            color: #007bff; /* SBM 색상 (이미지의 노란색을 대체) */
+            line-height: 0.8; /* 줄 간격 조절 */
+            position: relative;
+            letter-spacing: -2px; /* 글자 간격 조절 */
+        }
+        /* SBM 로고의 뾰족한 부분 디자인 (CSS로 구현) */
+        .logo-text-sbm::after {
+            content: '';
+            position: absolute;
+            bottom: 0px; /* S 밑에 위치 */
+            right: -10px; /* S에서 우측으로 조금 이동 */
+            width: 15px; /* 삼각형 밑변 */
+            height: 15px; /* 삼각형 높이 */
+            background-color: #ffc107; /* 이미지의 노란색 */
+            transform: rotate(45deg); /* 45도 회전하여 마름모꼴 */
+            z-index: 1; /* 글자 위로 오도록 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 2px;
+        }
+        .logo-text-international {
+            font-size: 1.2em; /* International 글자 크기 */
+            font-weight: 500;
+            color: #555;
+            margin-top: 5px; /* SBM과의 간격 */
+            letter-spacing: 2px;
+        }
+        /* -- 이미지 로고를 사용하고 싶다면 위 .logo-text-sbm, .logo-text-international, .logo-text-sbm::after CSS를 제거하고 아래 코드 사용 -- */
+        /*
+        .header img.logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        */
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            flex-grow: 1; /* 푸터를 아래로 밀고 남은 공간 모두 사용 */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            padding: 20px;
+        }
+
+        /* 정보 표시 영역 (시리얼, 업체명) */
+        .info-display-area {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 20px 30px;
+            margin-bottom: 30px;
             text-align: center;
-            background-color: #f4f7f6; /* 배경색 추가 */
+            width: 100%;
+            max-width: 400px; /* 이미지 너비에 맞춤 */
+            box-sizing: border-box;
         }
-        .container {
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            background: #ffffff;
-            max-width: 350px;
-            width: 90%;
-        }
-        h1 {
-            color: #333;
-            font-size: 1.6em;
-            margin-bottom: 5px;
-        }
-        .serial-label {
+        .info-display-area p {
             font-size: 0.9em;
             color: #666;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
-        .serial-display {
-            font-size: 1.4em;
+        .info-display-area .display-value {
+            font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 30px;
             color: #007bff;
-            padding: 10px;
-            border: 2px solid #007bff;
-            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
         }
-        .service-button {
-            display: block;
+        .info-display-area .display-value:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .info-display-area .display-value.company-name {
+            color: #28a745;
+        }
+
+        /* 서비스 선택 버튼 컨테이너 */
+        .service-cards {
+            display: flex;
+            flex-wrap: wrap; /* 모바일에서 줄 바꿈 */
+            gap: 20px; /* 카드 사이 간격 */
+            justify-content: center;
             width: 100%;
+            max-width: 600px; /* 카드 컨테이너 최대 너비 */
+        }
+
+        /* 개별 서비스 카드 스타일 */
+        .service-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            flex: 1 1 calc(50% - 20px); /* 2개씩 배치 (모바일은 1개씩) */
+            max-width: 180px; /* 개별 카드 최대 너비 (이미지 참조) */
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: inherit; /* 링크 색상 유지 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .service-card:hover {
+            transform: translateY(-5px); /* 호버 시 약간 위로 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .card-icon {
+            font-size: 3.5em; /* 아이콘 크기 */
+            color: #007bff; /* 아이콘 색상 */
+            margin-bottom: 15px;
+            background-color: #e6f2ff; /* 아이콘 배경 원형 효과 */
             padding: 15px;
-            margin: 15px auto;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px; /* 원형 크기 고정 */
+            height: 80px;
+        }
+        .service-card.as .card-icon { color: #dc3545; background-color: #fce7e7; } /* A/S 아이콘 색상 */
+        .service-card.history .card-icon { color: #28a745; background-color: #e7fce7; } /* 이력 아이콘 색상 */
+
+        .card-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* 푸터 스타일 */
+        .footer {
+            background-color: #1a365d; /* 요청하신 이미지의 어두운 남색 */
+            color: #e0e0e0;
+            padding: 25px 20px;
+            text-align: center;
+            margin-top: 30px; /* 메인 콘텐츠와의 간격 */
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .footer-company-name {
             font-size: 1.1em;
             font-weight: bold;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.2s;
+            margin-bottom: 10px;
         }
-        #as-button { background-color: #dc3545; }
-        #history-button { background-color: #28a745; }
-        #as-button:hover { background-color: #c82333; }
-        #history-button:hover { background-color: #1e7e34; }
-        .debug-info {
-            font-size: 0.8em;
-            color: #999;
-            margin-top: 15px;
-            word-break: break-all;
+        .footer-info p {
+            margin: 3px 0;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        .footer-info a {
+            color: #e0e0e0;
+            text-decoration: none;
+        }
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* 모바일 반응형 (카드를 한 줄에 하나씩) */
+        @media (max-width: 500px) {
+            .service-card {
+                flex: 1 1 100%; /* 한 줄에 하나씩 */
+                max-width: 300px; /* 모바일에서 카드 너비 */
+            }
+            .header {
+                padding: 15px 0;
+            }
+            .logo-text-sbm {
+                font-size: 2.2em;
+            }
+            .logo-text-international {
+                font-size: 1em;
+            }
+            .card-icon {
+                font-size: 3em;
+                width: 70px;
+                height: 70px;
+                padding: 12px;
+            }
+            .footer {
+                padding: 20px 15px;
+            }
+            .info-display-area {
+                padding: 15px 20px;
+            }
+            .info-display-area .display-value {
+                font-size: 1.1em;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>제품 서비스 선택</h1>
-    <p class="serial-label">스캔된 시리얼 번호:</p>
-    <div id="serial-number-display" class="serial-display">시리얼 번호 로딩 중...</div>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-text-sbm">SBM</div>
+            <div class="logo-text-international">International</div>
+            </div>
+    </header>
 
-    <button id="as-button" class="service-button" onclick="goToAS()">
-        🔴 A/S 접수 신청 (시리얼 자동 입력)
-    </button>
-    <button id="history-button" class="service-button" onclick="goToHistory()">
-        🟢 이력 조회
-    </button>
-    <div id="debug-area" class="debug-info"></div>
-</div>
+    <main class="main-content">
+        <div class="info-display-area">
+            <p class="serial-label">스캔된 정보:</p>
+            <div id="company-display" class="display-value company-name">업체명 로딩 중...</div>
+            <div id="serial-number-display" class="display-value">시리얼 번호 로딩 중...</div>
+        </div>
 
-<script>
-    // =========================================================
-    // 1. URL 설정 (고객님 정보 반영)
-    // =========================================================
-    // A/S 접수 Google Forms 기본 URL
-    const AS_FORM_BASE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSefr0sglL6E6l-z8F_GrBcTff_8OyklWcgNSZb1PDC0Mxkrkg/viewform?usp=pp_url&entry.708715845=';
-    const AS_FORM_SUFFIX = '&entry.530464408=GKL+%EC%BD%94%EC%97%93%EC%8A%A4%EC%A0%90'; 
-    
-    // 이력 조회 AppSheet URL (단순 이동)
-    const HISTORY_BASE_URL = 'https://www.appsheet.com/start/d2a23f00-f3be-4458-9025-d595b404a13c';
-    
-    // =========================================================
+        <div class="service-cards">
+            <a href="#" class="service-card as" id="as-card" onclick="goToAS(event)">
+                <div class="card-icon"><i class="fas fa-clipboard-list"></i></div>
+                <div class="card-text">A/S 접수</div>
+            </a>
+            <a href="#" class="service-card history" id="history-card" onclick="goToHistory(event)">
+                <div class="card-icon"><i class="fas fa-clock"></i></div>
+                <div class="card-text">이력 조회</div>
+            </a>
+        </div>
+    </main>
 
-    // URL에서 'serial' 매개변수 값을 읽어오는 함수 (일반 웹 환경에서는 매우 안정적임)
-    function getQueryVariable(variable) {
-        const url = window.location.href; // 현재 브라우저의 전체 URL을 사용
-        const query = url.split('?')[1];
-        if (!query) return null;
+    <footer class="footer">
+        <div class="footer-company-name">(주) 에스비엠인터내셔널</div>
+        <div class="footer-info">
+            <p>경기도 김포시 고촌읍 신곡리 240번길 17 호주트빌라S101호</p>
+            <p>Tel. 031-506-5431 / Mobile. 010-8552-0844 / E-mail. <a href="mailto:yskim5431@hyundaimib.com">yskim5431@hyundaimib.com</a></p>
+        </div>
+    </footer>
 
-        const params = new URLSearchParams(query);
-        const value = params.get(variable);
-        return value ? decodeURIComponent(value.replace(/\+/g, ' ')) : null; 
-    }
+    <script>
+        // =========================================================
+        // JavaScript 로직 (이전과 동일, 일부 요소 ID 변경)
+        // =========================================================
+        const AS_FORM_BASE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSefr0sglL6E6l-z8F_GrBcTff_8OyklWcgNSZb1PDC0Mxkrkg/viewform?usp=pp_url';
+        const SERIAL_ENTRY_ID = 'entry.708715845';
+        const COMPANY_ENTRY_ID = 'entry.530464408'; // Google Forms의 '업체명' 항목 ID
 
-    // 시리얼 번호 추출
-    const SERIAL_NUMBER = getQueryVariable('serial');
-    const displayElement = document.getElementById('serial-number-display');
-    const debugArea = document.getElementById('debug-area');
+        const HISTORY_BASE_URL = 'https://www.appsheet.com/start/d2a23f00-f3be-4458-9025-d595b404a13c';
 
-    if (SERIAL_NUMBER) {
-        displayElement.textContent = SERIAL_NUMBER;
-        debugArea.innerHTML = '시리얼 값: ' + SERIAL_NUMBER + ' (파싱 성공)';
-    } else {
-        displayElement.textContent = '시리얼 번호를 찾을 수 없습니다.';
-        document.getElementById('as-button').disabled = true;
-        document.getElementById('history-button').disabled = true;
-        debugArea.innerHTML = 'URL 파싱 실패. 현재 URL: ' + window.location.href;
-    }
-
-    // A/S 접수 버튼 클릭 시 실행 함수
-    function goToAS() {
-        if (SERIAL_NUMBER) {
-            // 시리얼 번호를 URL에 인코딩하여 Forms로 이동
-            const finalUrl = AS_FORM_BASE_URL + encodeURIComponent(SERIAL_NUMBER) + AS_FORM_SUFFIX;
-            window.location.href = finalUrl;
-        } else {
-            alert('시리얼 번호가 없어 A/S 접수를 진행할 수 없습니다.');
+        function getQueryVariable(variable) {
+            const url = window.location.href; 
+            const query = url.split('?')[1];
+            if (!query) return null;
+            const params = new URLSearchParams(query);
+            const value = params.get(variable);
+            return value ? decodeURIComponent(value.replace(/\+/g, ' ')) : null; 
         }
-    }
 
-    // 이력 조회 버튼 클릭 시 실행 함수
-    function goToHistory() {
-        // AppSheet URL로 단순 이동
-        window.location.href = HISTORY_BASE_URL;
-    }
-</script>
+        const SERIAL_NUMBER = getQueryVariable('serial');
+        const COMPANY_NAME = getQueryVariable('company'); 
+        
+        const serialDisplay = document.getElementById('serial-number-display');
+        const companyDisplay = document.getElementById('company-display');
+        const asCard = document.getElementById('as-card');
+        const historyCard = document.getElementById('history-card');
 
+        if (SERIAL_NUMBER) {
+            serialDisplay.textContent = '시리얼: ' + SERIAL_NUMBER;
+        } else {
+            serialDisplay.textContent = '시리얼 번호 누락';
+            asCard.onclick = (e) => { e.preventDefault(); alert('정보가 부족하여 A/S 접수를 진행할 수 없습니다.'); };
+            asCard.style.opacity = '0.7'; // 비활성화 느낌
+        }
+        
+        if (COMPANY_NAME) {
+            companyDisplay.textContent = '업체명: ' + COMPANY_NAME;
+        } else {
+            companyDisplay.textContent = '업체명 누락 (QR 코드 확인)';
+            // 업체명이 누락되어도 시리얼이 있으면 A/S 접수 가능하게 하려면 이 부분을 수정
+            asCard.onclick = (e) => { e.preventDefault(); alert('정보가 부족하여 A/S 접수를 진행할 수 없습니다.'); };
+            asCard.style.opacity = '0.7'; // 비활성화 느낌
+        }
+
+        function goToAS(event) {
+            event.preventDefault(); // 기본 링크 이동 방지
+            if (SERIAL_NUMBER && COMPANY_NAME) {
+                const serialParam = '&' + SERIAL_ENTRY_ID + '=' + encodeURIComponent(SERIAL_NUMBER);
+                const companyParam = '&' + COMPANY_ENTRY_ID + '=' + encodeURIComponent(COMPANY_NAME);
+                
+                const finalUrl = AS_FORM_BASE_URL + serialParam + companyParam;
+                window.location.href = finalUrl;
+            } else {
+                alert('정보가 부족하여 A/S 접수를 진행할 수 없습니다.');
+            }
+        }
+
+        function goToHistory(event) {
+            event.preventDefault(); // 기본 링크 이동 방지
+            window.location.href = HISTORY_BASE_URL;
+        }
+    </script>
 </body>
 </html>
