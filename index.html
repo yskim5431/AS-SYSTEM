@@ -6,7 +6,7 @@
     <title>SBM International 서비스</title> <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 기본 스타일 및 배경색 */
+        /* (CSS 스타일 부분은 변경 없음) */
         body {
             font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', sans-serif;
             margin: 0;
@@ -16,7 +16,6 @@
             flex-direction: column;
             min-height: 100vh; /* 전체 화면 높이 사용 */
         }
-
         /* 헤더 스타일 */
         .header {
             background-color: #ffffff;
@@ -60,15 +59,6 @@
             margin-top: 5px; /* SBM과의 간격 */
             letter-spacing: 2px;
         }
-        /* -- 이미지 로고를 사용하고 싶다면 위 .logo-text-sbm, .logo-text-international, .logo-text-sbm::after CSS를 제거하고 아래 코드 사용 -- */
-        /*
-        .header img.logo {
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 10px;
-        }
-        */
-
         /* 메인 콘텐츠 영역 */
         .main-content {
             flex-grow: 1; /* 푸터를 아래로 밀고 남은 공간 모두 사용 */
@@ -78,7 +68,6 @@
             justify-content: center;
             padding: 20px;
         }
-
         /* 정보 표시 영역 (시리얼, 업체명) */
         .info-display-area {
             background-color: #ffffff;
@@ -111,7 +100,6 @@
         .info-display-area .display-value.company-name {
             color: #28a745;
         }
-
         /* 서비스 선택 버튼 컨테이너 */
         .service-cards {
             display: flex;
@@ -121,7 +109,6 @@
             width: 100%;
             max-width: 600px; /* 카드 컨테이너 최대 너비 */
         }
-
         /* 개별 서비스 카드 스타일 */
         .service-card {
             background-color: #ffffff;
@@ -138,6 +125,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
         .service-card:hover {
             transform: translateY(-5px); /* 호버 시 약간 위로 */
@@ -158,13 +146,11 @@
         }
         .service-card.as .card-icon { color: #dc3545; background-color: #fce7e7; } /* A/S 아이콘 색상 */
         .service-card.history .card-icon { color: #28a745; background-color: #e7fce7; } /* 이력 아이콘 색상 */
-
         .card-text {
             font-size: 1.1em;
             font-weight: 600;
             color: #333;
         }
-
         /* 푸터 스타일 */
         .footer {
             background-color: #1a365d; /* 요청하신 이미지의 어두운 남색 */
@@ -192,7 +178,6 @@
         .footer-info a:hover {
             text-decoration: underline;
         }
-
         /* 모바일 반응형 (카드를 한 줄에 하나씩) */
         @media (max-width: 500px) {
             .service-card {
@@ -264,13 +249,14 @@
 
     <script>
         // =========================================================
-        // JavaScript 로직 (이전과 동일, 일부 요소 ID 변경)
+        // JavaScript 로직 (AppSheet 주소 변경됨)
         // =========================================================
         const AS_FORM_BASE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSefr0sglL6E6l-z8F_GrBcTff_8OyklWcgNSZb1PDC0Mxkrkg/viewform?usp=pp_url';
         const SERIAL_ENTRY_ID = 'entry.708715845';
         const COMPANY_ENTRY_ID = 'entry.530464408'; // Google Forms의 '업체명' 항목 ID
 
-        const HISTORY_BASE_URL = 'https://www.appsheet.com/start/d2a23f00-f3be-4458-9025-d595b404a13c';
+        // **** 수정된 부분: AppSheet 이력 조회 앱의 새 주소로 변경 ****
+        const HISTORY_BASE_URL = 'https://www.appsheet.com/start/bb8fec13-e228-4afe-a1bb-d1dde0dde596';
 
         function getQueryVariable(variable) {
             const url = window.location.href; 
@@ -321,10 +307,13 @@
 
         function goToHistory(event) {
             event.preventDefault(); // 기본 링크 이동 방지
+            // 시리얼 번호가 있으면, 이력 조회 URL에 시리얼 번호를 파라미터로 넘길 수 있습니다.
+            // AppSheet가 시리얼 번호를 필터링하여 보여주려면 해당 로직을 추가해야 합니다.
+            // AppSheet의 'linktofilter' 기능을 사용하지 않는다면 기본 URL로 이동합니다.
+            
+            // 현재는 시리얼 번호 필터링 없이 기본 URL로 이동하도록 수정합니다.
             window.location.href = HISTORY_BASE_URL;
         }
     </script>
 </body>
 </html>
-
-
